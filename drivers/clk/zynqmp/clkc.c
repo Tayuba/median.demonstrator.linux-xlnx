@@ -152,10 +152,6 @@ static const char *can0_mio_mux2_parents[] __initconst = {"can0_ref",
 							"can0_mio_mux"};
 static const char *can1_mio_mux2_parents[] __initconst = {"can1_ref",
 							"can1_mio_mux"};
-static const char *usb0_mio_mux_parents[] __initconst = {"usb0_bus_ref",
-							"usb0_mio_ulpi_clk"};
-static const char *usb1_mio_mux_parents[] __initconst = {"usb1_bus_ref",
-							"usb1_mio_ulpi_clk"};
 static const char *swdt_ext_clk_input_names[] __initconst = {"swdt0_ext_clk",
 							"swdt1_ext_clk"};
 static const char *gem0_tx_mux_parents[] __initconst = {"gem0_ref_div1",
@@ -804,19 +800,10 @@ static void __init zynqmp_clk_setup(struct device_node *np)
 			CRL_APB_USB0_BUS_REF_CTRL,
 			periph_parents[usb0_bus_ref], 1, 1, 25);
 
-	clks[usb0] = zynqmp_clk_register_mux(NULL, clk_output_name[usb0],
-			usb0_mio_mux_parents, 2,
-			CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
-			(resource_size_t *)CRL_APB_USB0_BUS_REF_CTRL, 2, 1, 0);
-
 	zynqmp_clk_register_periph_clk(0, usb1_bus_ref,
 			clk_output_name[usb1_bus_ref],
 			CRL_APB_USB1_BUS_REF_CTRL,
 			periph_parents[usb1_bus_ref], 1, 1, 25);
-	clks[usb1] = zynqmp_clk_register_mux(NULL, clk_output_name[usb1],
-			usb1_mio_mux_parents, 2,
-			CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
-			(resource_size_t *)CRL_APB_USB1_BUS_REF_CTRL, 2, 1, 0);
 
 	/* Ethernet clocks */
 	for (i = 0; i < ARRAY_SIZE(gem0_emio_input_names); i++) {
